@@ -1,0 +1,48 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	background-color: #808080;
+}
+.cent{	
+	background-color: #ecf0f5;;
+	width: 50%;
+	height: 100%;
+	border-radius: 10px;
+	margin:30px auto;
+}
+.ti{
+	text-align: center;
+}
+.inp{
+	margin-left:10%;
+	margin-right:10%;
+}
+.item{
+	margin-left:10%;
+	margin-right:10%;
+	text-align: left;
+}
+.inpx{
+	margin-bottom: 30px;
+	width:85%;
+	display: inline-block;
+}
+.lis{
+	width:95%!important;
+}
+.but{
+	position: absolute;
+	left: 95%;
+	height: 20px;
+	width: 20px;
+	padding: 0;
+	margin: 0;
+}
+.counter{
+	font-size: 20px;
+	margin-left: 10%;
+	margin-top: 20px;
+	display: inline-block;
+}

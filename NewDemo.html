@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+    	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    	<link href="css/demo.css" rel="stylesheet">
+		<title>vue</title>
+	</head>
+	<body>
+		<div class="cent" id="vm">
+			<h1 class="ti"><b>Todo List</b></h1>
+			<div class="inp">
+				<input class="inpx form-control" placeholder="输入待办事项" v-model="message" v-on:keyup.enter="add">
+				<button type="button" class="btn btn-primary" v-on:click="add">ADD</button>
+ 			</div>
+ 			<div class="item">
+ 				<ul>
+ 					<todo-item v-for="(item,index) in todos" v-bind:todo="item" v-bind:key="item.key"></todo-item>
+ 				</ul>
+ 			</div> 
+ 			<hr>
+ 			<div>
+ 				<p class="counter">待完成事项:{{count}}</p>
+ 				<p class="counter">已完成事项:{{done}}</p>
+ 			</div>
+ 		</div>
+		<script src="https://unpkg.com/vue"></script>
+		<script type="text/javascript">
+			Vue.component('todo-item',{
+				props: ['todo'],
+				template: '<li class="list-group-item lis">{{todo.text}}<button type="button" class="btn btn-danger but">X</button></li>',
+			})
+			var vm = new Vue({
+				el: "#vm",
+				data: {
+					todos: [],
+      				nextId: 0,
+					message: "",
+					count: 0,
+				},
+				methods: {
+					add: function(){
+						if(this.message!=""){
+							this.todos.push({id: this.nextId++,text: this.message});
+							this.message = "";
+							this.count++;
+						}
+					},
+				}
+			})
+		</script>
+	</body>
+</html>
