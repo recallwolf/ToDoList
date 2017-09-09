@@ -16,9 +16,7 @@
 				<button type="button" class="btn btn-primary" v-on:click="add">ADD</button>
  			</div>
  			<div class="item">
- 				<ul>
- 					<todo-item v-for="(item,index) in todos" v-bind:todo="item" v-bind:key="item.key"></todo-item>
- 				</ul>
+ 				<todo-item v-bind:todo="todos"></todo-item>
  			</div> 
  			<hr>
  			<div>
@@ -30,7 +28,14 @@
 		<script type="text/javascript">
 			Vue.component('todo-item',{
 				props: ['todo'],
-				template: '<li class="list-group-item lis">{{todo.text}}<button type="button" class="btn btn-danger but">X</button></li>',
+				template: '<ul><li class="list-group-item lis" v-for="(item,index) in todo">{{item.text}}<button type="button" class="btn btn-danger but" v-on:click="del(index)">X</button></li></ul>',
+				methods: {
+					del: function(index){
+						this.todo.splice(index, 1);
+						vm.done++;
+						vm.count--;
+					}
+				}
 			})
 			var vm = new Vue({
 				el: "#vm",
@@ -39,7 +44,16 @@
       				nextId: 0,
 					message: "",
 					count: 0,
+					done: 0,
 				},
+				watch: {
+    				todos: {
+      					handler: function (todos, done) {
+       						this.save();
+      					},
+      					deep: true
+    				}
+    			},
 				methods: {
 					add: function(){
 						if(this.message!=""){
@@ -48,8 +62,23 @@
 							this.count++;
 						}
 					},
-				}
+					fetch: function () {
+    					var todos = JSON.parse(localStorage.getItem('todos') || '[]')
+    					for(var x in todos){
+    						this.todos.push(todos[x]);
+    						var number = parseInt(x);
+    						this.count = number + 1;
+    					}
+    					var done = JSON.parse(localStorage.getItem('donecount')||this.done);
+    					this.done = done;
+  					},
+  					save: function () {
+    					localStorage.setItem('todos', JSON.stringify(this.todos));
+    					localStorage.setItem('donecount', JSON.stringify(this.done));
+  					}
+  				},
 			})
+			vm.fetch();
 		</script>
 	</body>
 </html>
