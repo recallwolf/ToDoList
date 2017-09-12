@@ -25,15 +25,38 @@ body{
 	margin-right:10%;
 	text-align: left;
 }
+.itemdid{
+	margin-left:10%;
+	margin-right:10%;
+	text-align: left;
+	padding-bottom: 20px;
+}
 .inpx{
 	margin-bottom: 30px;
 	width:85%;
 	display: inline-block;
 }
+.linput{
+	width: 50%;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
 .lis{
 	width:95%!important;
+	height:40px;
 }
-.but{
+.bute{
+	position: absolute;
+	left: 88%;
+	height: 20px;
+	width: 30px;
+	padding: 0;
+	margin: 0;
+	font-size: 10px; 
+}
+.butd{
 	position: absolute;
 	left: 95%;
 	height: 20px;
@@ -41,9 +64,24 @@ body{
 	padding: 0;
 	margin: 0;
 }
+.buts{
+	position: absolute;
+	left: 70%;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	margin: 0;
+	border-radius: 50%;
+}
 .counter{
 	font-size: 20px;
-	margin-left: 10%;
+	margin-left: 10.5%;
 	margin-top: 20px;
 	display: inline-block;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0
 }

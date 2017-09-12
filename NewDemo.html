@@ -16,39 +16,49 @@
 				<button type="button" class="btn btn-primary" v-on:click="add">ADD</button>
  			</div>
  			<div class="item">
- 				<todo-item v-bind:todo="todos"></todo-item>
- 			</div> 
+ 				<todo-item v-bind:todo="todos" v-bind:show="show"></todo-item>
+ 			</div>
  			<hr>
  			<div>
  				<p class="counter">待完成事项:{{count}}</p>
- 				<p class="counter">已完成事项:{{done}}</p>
+ 				<p class="counter">已完成事项:{{done}}<button class="btn btn-danger buts" v-on:click="show= !show">▼</button></p>
+ 			</div>
+ 			 <div class="itemdid">
+ 				<did-item v-bind:did="dids" v-bind:show="show"></did-item>
  			</div>
  		</div>
 		<script src="https://unpkg.com/vue"></script>
 		<script type="text/javascript">
 			Vue.component('todo-item',{
-				props: ['todo'],
-				template: '<ul><li class="list-group-item lis" v-for="(item,index) in todo">{{item.text}}<button type="button" class="btn btn-danger but" v-on:click="del(index)">X</button></li></ul>',
+				props: ['todo','show'],
+				template: '<ul><li class="list-group-item lis" v-for="(item,index) in todo"><span v-if="show">{{item.text}}</span><input class="form-control linput" v-model="item.text" v-if="!show"><button type="button" class="btn btn-info bute" v-on:click="show=!show">edit</button><button type="button" class="btn btn-danger butd" v-on:click="del(index)">X</button></li></ul>',
 				methods: {
 					del: function(index){
+						vm.dids.push(this.todo[index]);
 						this.todo.splice(index, 1);
 						vm.done++;
 						vm.count--;
 					}
 				}
 			})
+			Vue.component('did-item',{
+				props: ['did','show'],
+				template: '<transition-group name="fade" v-if="!show"><h3 key="h"><b>已完成事项:</b></h3><ul key="ul"><li class="list-group-item lis" v-for="(item,index) in did">{{item.text}}</li></ul></transition-group>',
+			})
 			var vm = new Vue({
 				el: "#vm",
 				data: {
 					todos: [],
+					dids: [],
       				nextId: 0,
 					message: "",
 					count: 0,
 					done: 0,
+					show: true,
 				},
 				watch: {
     				todos: {
-      					handler: function (todos, done) {
+      					handler: function (todos, dids) {
        						this.save();
       					},
       					deep: true
@@ -64,17 +74,21 @@
 					},
 					fetch: function () {
     					var todos = JSON.parse(localStorage.getItem('todos') || '[]')
-    					for(var x in todos){
-    						this.todos.push(todos[x]);
-    						var number = parseInt(x);
+    					for(var index in todos){
+    						this.todos.push(todos[index]);
+    						var number = parseInt(index);
     						this.count = number + 1;
     					}
-    					var done = JSON.parse(localStorage.getItem('donecount')||this.done);
-    					this.done = done;
+    					var dids = JSON.parse(localStorage.getItem('dids')||'[]');
+    					for(var index in dids){
+    						this.dids.push(dids[index]);
+    						var number = parseInt(index);
+    						this.done = number + 1;
+    					}
   					},
   					save: function () {
     					localStorage.setItem('todos', JSON.stringify(this.todos));
-    					localStorage.setItem('donecount', JSON.stringify(this.done));
+    					localStorage.setItem('dids', JSON.stringify(this.dids));
   					}
   				},
 			})
