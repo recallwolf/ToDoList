@@ -30,8 +30,11 @@
 		<script src="https://unpkg.com/vue"></script>
 		<script type="text/javascript">
 			Vue.component('todo-item',{
-				props: ['todo','show'],
+				props: ['todo'],
 				template: '<ul><li class="list-group-item lis" v-for="(item,index) in todo"><span v-if="show">{{item.text}}</span><input class="form-control linput" v-model="item.text" v-if="!show"><button type="button" class="btn btn-info bute" v-on:click="show=!show">edit</button><button type="button" class="btn btn-danger butd" v-on:click="del(index)">X</button></li></ul>',
+				data() {
+					return {show: true}
+				},
 				methods: {
 					del: function(index){
 						vm.dids.push(this.todo[index]);
@@ -76,13 +79,13 @@
     					var todos = JSON.parse(localStorage.getItem('todos') || '[]')
     					for(var index in todos){
     						this.todos.push(todos[index]);
-    						var number = parseInt(index);
+    						var number = parseInt(index, 10);
     						this.count = number + 1;
     					}
     					var dids = JSON.parse(localStorage.getItem('dids')||'[]');
     					for(var index in dids){
     						this.dids.push(dids[index]);
-    						var number = parseInt(index);
+    						var number = parseInt(index, 10);
     						this.done = number + 1;
     					}
   					},
