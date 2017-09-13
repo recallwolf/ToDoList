@@ -31,16 +31,25 @@
 		<script type="text/javascript">
 			Vue.component('todo-item',{
 				props: ['todo'],
-				template: '<ul><li class="list-group-item lis" v-for="(item,index) in todo"><span v-if="show">{{item.text}}</span><input class="form-control linput" v-model="item.text" v-if="!show"><button type="button" class="btn btn-info bute" v-on:click="show=!show">edit</button><button type="button" class="btn btn-danger butd" v-on:click="del(index)">X</button></li></ul>',
-				data() {
-					return {show: true}
-				},
+				template: '<ul><li class="list-group-item lis" v-for="(item,index) in todo"><span v-if="item.show">{{item.text}}</span><input class="form-control linput" v-model="item.text" v-if="!item.show"><button type="button" class="btn btn-info bute" v-on:click="item.show=!item.show, edit(index)">edit</button><button type="button" class="btn btn-danger butd" v-on:click="del(index)">X</button></li></ul>',
 				methods: {
 					del: function(index){
-						vm.dids.push(this.todo[index]);
-						this.todo.splice(index, 1);
-						vm.done++;
-						vm.count--;
+						if(this.todo[index].show == false&&this.todo[index].text == ''){
+							this.todo.splice(index, 1);
+							vm.count--;
+						}
+						else{
+							vm.dids.push(this.todo[index]);
+							this.todo.splice(index, 1);
+							vm.done++;
+							vm.count--;
+						}
+					},
+					edit: function(index){
+						if(this.todo[index].text == ''){
+							this.todo.splice(index, 1);
+							vm.count--;
+						}
 					}
 				}
 			})
@@ -70,7 +79,7 @@
 				methods: {
 					add: function(){
 						if(this.message!=""){
-							this.todos.push({id: this.nextId++,text: this.message});
+							this.todos.push({id: this.nextId++,text: this.message,show: true});
 							this.message = "";
 							this.count++;
 						}
